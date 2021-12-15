@@ -1,0 +1,26 @@
+{
+  "name": "incredible-employee-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trm621/incredible-employee-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trm621/incredible-employee-tracker/issues"
+  },
+  "homepage": "https://github.com/trm621/incredible-employee-tracker#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jest": "^27.4.5",
+    "mysql2": "^2.3.3"
+  }
+}
