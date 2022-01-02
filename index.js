@@ -1,4 +1,5 @@
 const inquirer = require('inquirer');
+const cTable = require('console.table');
 const db = require('./db/connection');
 
 function init() {
@@ -52,7 +53,7 @@ function viewAllDepartments() {
             console.log("Error. Please try again.")
         }
         else {
-        console.table(rows)
+            console.table(rows)
         }
     })
 
