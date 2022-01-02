@@ -1,14 +1,14 @@
 const inquirer = require('inquirer');
 const db = require('./db/connection')
 
-function init () {
-    inquirer.prompt([
+const init = () => {
+    return inquirer.prompt([
         {
             type: 'list',
             name: 'begin',
             message: 'What would you like to do?',
             choices: ['View all departments', 
-            "View all roles",
+            'View all roles',
             "View all employees",
             "Add a new department",
             "Add a role",
@@ -39,8 +39,25 @@ function init () {
             case "Update an existing employee's role":
                 updateRole();
             break;
-    }
-});
+        }
+    })
+};
+
+function viewAllDepartments() {
+
+}
+
+function viewAllRoles() {
+
+}
+
+function viewAllEmployees() {
+
+}
+
+function addNewRole() {
+
+}
 
 const addNewEmployee = employeeData => {
     if(!employeeData) {
@@ -72,7 +89,10 @@ const addNewEmployee = employeeData => {
         employeeData.push(employeeInfo)
         return employeeInfo;
     })
-}
+};
+
+function updateRole() {
+
 }
 
 init();
