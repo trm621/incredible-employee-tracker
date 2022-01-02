@@ -1,8 +1,8 @@
 const inquirer = require('inquirer');
-const db = require('./db/connection')
+// const db = require('./db/connection');
 
-const init = () => {
-    return inquirer.prompt([
+function init() {
+    inquirer.prompt([
         {
             type: 'list',
             name: 'begin',
@@ -41,6 +41,7 @@ const init = () => {
             break;
         }
     })
+    
 };
 
 function viewAllDepartments() {
@@ -59,7 +60,7 @@ function addNewRole() {
 
 }
 
-const addNewEmployee = employeeData => {
+function addNewEmployee() {
     if(!employeeData) {
         employeeData = [];
     }
