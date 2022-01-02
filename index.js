@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-// const db = require('./db/connection');
+const db = require('./db/connection');
 
 function init() {
     inquirer.prompt([
@@ -45,6 +45,16 @@ function init() {
 };
 
 function viewAllDepartments() {
+    let sql;
+    sql = 'SELECT * FROM departments';
+    db.query(sql, (err, rows) => {
+        if (err) {
+            console.log("Error. Please try again.")
+        }
+        else {
+        console.table(rows)
+        }
+    })
 
 }
 
