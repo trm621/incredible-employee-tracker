@@ -1,6 +1,48 @@
 const inquirer = require('inquirer');
+const db = require('./db/connection')
 
-const createEmployee = employeeData => {
+function init () {
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'begin',
+            message: 'What would you like to do?',
+            choices: ['View all departments', 
+            "View all roles",
+            "View all employees",
+            "Add a new department",
+            "Add a role",
+            "Add an employee",
+            "Update an existing employee's role"]
+        }
+    ])
+    .then(data => {
+        switch(data.begin) {
+            case "View all departments":
+                viewAllDepartments();
+            break;
+            case "View all roles":
+                viewAllRoles();;
+            break;
+            case "View all employees":
+                viewAllEmployees();
+            break;
+            case "Add a new department":
+                addNewDepartment();
+            break;
+            case "Add a role":
+                addNewRole();
+            break;
+            case "Add an employee":
+                addNewEmployee();
+            break;
+            case "Update an existing employee's role":
+                updateRole();
+            break;
+    }
+});
+
+const addNewEmployee = employeeData => {
     if(!employeeData) {
         employeeData = [];
     }
@@ -31,3 +73,6 @@ const createEmployee = employeeData => {
         return employeeInfo;
     })
 }
+}
+
+init();
