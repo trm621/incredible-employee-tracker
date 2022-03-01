@@ -152,8 +152,7 @@ function init() {
                 })
                 break;
             case "Add an employee":
-                inquirer
-                    .prompt([
+                inquirer.prompt([
                         {
                             type: 'text',
                             name: 'firstName',
@@ -218,11 +217,55 @@ function init() {
                         });
                     });
                 break;
-                case "Update an employee role:"
-            })
-        };
+                case "Update an existing employee's role":
+                    inquirer.prompt([
+                        {
+                            type: "number",
+                            name: "employeeId",
+                            message: "Enter the ID number of the employee you'd like to update.",
+                            validate: employeeIdInput => {
+                                if (employeeIdInput) {
+                                    return true;
+                                } else {
+                                    console.log("An error occurred. Please enter the ID number of the employee you'd like to update.");
+                                    return false;
+                                }
+                            }
+                        },
+                        {
+                            type: "number",
+                            name: "role",
+                            message: "Enter the role ID for the employee's new position.",
+                            validate: newRoleInput => {
+                                if (newRoleInput) {
+                                    return true;
+                                } else {
+                                    console.log("An error occurred. Please enter the role ID for the employee's new position.");
+                                    return false;
+                                }
+                            }
+                        }
+                    ])
+                    .then(data => {
+                        sql = `UPDATE employees SET role_id = ?
+                        WHERE id =?`;
+                        params = [data.newRole, data.employeeId];
+                        db.query(sql, params, (err, rows) => {
+                            if (err) {
+                                console.log("An error occurred. Please enter correct credentials.");
+                            } else {
+                                console.log("Employee's role updated!");
+                            }
+                            goBack();
+                        });
+                    });
+                break;
+            default:
+                console.log("An unknown error occurred. Please enter correct credentials.");
+                break;
         }
-        })
+    })
+};
 
 
 
