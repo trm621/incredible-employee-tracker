@@ -10,7 +10,7 @@
   - <a href="#tests">Tests</a>
   - <a href="#questions">Questions</a>
   ## Installation
-  ### Download this repository onto your local machine, install dependencies, enter your mysql password into the connection.js file located in the "db" folder, and run throught the command line by entering "node index".
+  ### Download this repository onto your local machine, install dependencies, enter your mySql password into the connection.js file located in the "db" folder, and run through the command line by entering "node index".
   ## Usage
   ### Follow the prompts to interact with the application and manipulate the database accordingly.
   ## Contributing
