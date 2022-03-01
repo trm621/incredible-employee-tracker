@@ -1,9 +1,9 @@
 const inquirer = require('inquirer');
-const cTable = require('console.table');
 const db = require('./db/connection');
+const cTable = require('console.table');
 
 function init() {
-    console.log("Hello there!");
+    console.log("Hello there! Choose from the list of options below.");
     inquirer.prompt([
         {
             type: 'list',
@@ -24,191 +24,206 @@ function init() {
         let sql;
         let params;
         switch(data.begin) {
-    case "View all departments":
-        sql = `SELECT * FROM departments`;
-        db.query(sql, (err, rows) => {
-            if (err) {
-                console.log("An error occurred.")
-            } else {
-                console.log("Departments:");
-                console.log(rows);
-            }
-            goBack();
-        });
-        break;
-    case "View all roles":
-        sql = `SELECT * FROM roles`;
-        db.query(sql, (err, rows) => {
-            if (err) {
-                console.log("An error occurred.")
-            } else {
-                console.log("Roles:");
-                console.log(rows);
-            }
-            goBack();
-        })
-        break;
-    case "View all employees":  
-        sql = `SELECT * FROM employees`;
-        db.query(sql, (err, rows) => {
-            if (err) {
-                console.log("An error occurred.")
-            } else {
-                console.log("Employees:");
-                console.log(rows)
-            }
-            goBack();
-        });
-        break;
-    case "Add a department":
-        inquirer.prompt([
-            {
-                type: 'text',
-                name: 'department',
-                message: "Please enter the name of the department you'd like to add.",
-                validate: departmentInput => {
-                    if (departmentInput) {
-                        return true;
+            case "View all departments":
+                sql = `SELECT * FROM departments`;
+                db.query(sql, (err, rows) => {
+                    if (err) {
+                        console.log("An error occurred.")
                     } else {
-                        console.log('Must enter department name.')
-                        return false;
+                        console.log("Departments:");
+                        console.table(rows);
                     }
-                }
-            }
-        ])
-    .then(data => {
-        sql = `INSERT INTO departments (name) VALUES (?)`;
-        params = [data.departments];
-        db.query(sql, params, (err, rows) => {
-            if (err) {
-                console.log('An error occurred. Please input correct information.')
-            } else {
-                console.log('Department added!');
-            }
-            goBack();
-        })
-        break;
-    case "Add a role":
-        inquirer.prompt([
-            {
-                type: 'text',
-                name: "role",
-                message: "Please enter the title of the role you'd like to add.",
-                validate: roleInput => {
-                    if (roleInput) {
-                        return true;
+                    goBack();
+                });
+                break;
+            case "View all roles":
+                sql = `SELECT * FROM roles.id, roles.title, roles.salary, departments.name
+                AS department
+                FROM roles
+                LEFT JOIN departments
+                ON roles.department_id = departments.id`;
+                db.query(sql, (err, rows) => {
+                    if (err) {
+                        console.log("An error occurred.")
                     } else {
-                        console.log("An error occurred. Please enter the title of the role you'd like to add.");
-                        return false
+                        console.log("Roles:");
+                        console.table(rows);
                     }
-                }
-            },
-            {
-                type: 'number',
-                name: 'salary',
-                message: "Please enter the base salary for the role you've added.",
-                validate: salaryInput => {
-                    if (salaryInput) {
-                        return true;
+                    goBack();
+                })
+                break;
+            case "View all employees":  
+                sql = `SELECT employees.id, employees.first_name, employees.last_name, roles.title AS title, departments.name AS department, roles.salary AS salary, manager_id AS manager
+                FROM employees
+                LEFT JOIN roles ON employees.role_id = roles.id
+                LEFT JOIN departments ON roles.department_id = departments.id`;
+                db.query(sql, (err, rows) => {
+                    if (err) {
+                        console.log("An error occurred.")
                     } else {
-                        console.log("An error occurred. Please enter the base salary for the role you've added.");
-                        return false
+                        console.log("Employees:");
+                        console.table(rows)
                     }
-                }
-            },
-            {
-                type: 'number',
-                name: "departmentId",
-                message: "Please enter the department ID for this role.",
-                validate: departmentIdInput => {
-                    if (departmentIdInput) {
-                        return true;
+                    goBack();
+                });
+                break;
+            case "Add a department":
+                inquirer.prompt([
+                    {
+                        type: 'text',
+                        name: 'department',
+                        message: "Please enter the name of the department you'd like to add.",
+                        validate: departmentInput => {
+                            if (departmentInput) {
+                                return true;
+                            } else {
+                                console.log('Must enter department name.');
+                                return false;
+                            }
+                        }
+                    }
+                ])
+            .then(data => {
+                sql = `INSERT INTO departments (name) VALUES (?)`;
+                params = [data.department];
+                db.query(sql, params, (err, rows) => {
+                    if (err) {
+                        console.log('An error occurred. Please input correct information.')
                     } else {
-                        console.log("An error occurred. Please enter the department ID for this role.");
-                        return false;
+                        console.log('Department added!');
                     }
-                }
-            }
-        ])
-        .then(data => {
-            sql = `INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)`;
-            params = [data.role, data.salary, data.departmentId];
-            db.query(sql, params, (err, rows) => {
-                if (err) {
-                    console.log("An error occurred. Taking you back to the main menu.")
-                } else {
-                    console.log("Role added!")
-                }
-                goBack();
+                    goBack();
+                })
             })
+                break;
+            case "Add a role":
+                inquirer.prompt([
+                    {
+                        type: 'text',
+                        name: "role",
+                        message: "Please enter the title of the role you'd like to add.",
+                        validate: roleInput => {
+                            if (roleInput) {
+                                return true;
+                            } else {
+                                console.log("An error occurred. Please enter the title of the role you'd like to add.");
+                                return false
+                            }
+                        }
+                    },
+                    {
+                        type: 'number',
+                        name: 'salary',
+                        message: "Please enter the base salary for the role you've added.",
+                        validate: salaryInput => {
+                            if (salaryInput) {
+                                return true;
+                            } else {
+                                console.log("An error occurred. Please enter the base salary for the role you've added.");
+                                return false
+                            }
+                        }
+                    },
+                    {
+                        type: 'number',
+                        name: "departmentId",
+                        message: "Please enter the department ID for this role.",
+                        validate: departmentIdInput => {
+                            if (departmentIdInput) {
+                                return true;
+                            } else {
+                                console.log("An error occurred. Please enter the department ID for this role.");
+                                return false;
+                            }
+                        }
+                    }
+                ])
+                .then(data => {
+                    sql = `INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)`;
+                    params = [data.role, data.salary, data.departmentId];
+                    db.query(sql, params, (err, rows) => {
+                        if (err) {
+                            console.log("An error occurred. Taking you back to the main menu.")
+                        } else {
+                            console.log("Role added!")
+                        }
+                        goBack();
+                    })
+                })
+                break;
+            case "Add an employee":
+                inquirer
+                    .prompt([
+                        {
+                            type: 'text',
+                            name: 'firstName',
+                            message: "Enter the employee's first name.",
+                            validate: firstNameInput => {
+                                if (firstNameInput) {
+                                    return true;
+                                } else {
+                                    console.log("An error occurred. Please enter the employee's first name.");
+                                    return false;
+                                }
+                            }
+                        },
+                        {
+                            type: 'text',
+                            name: 'lastName',
+                            message: "Enter the employee's last name.",
+                            validate: lastNameInput => {
+                                if (lastNameInput) {
+                                    return true;
+                                } else {
+                                    console.log("An error occurred. Please enter the employee's last name.");
+                                    return false;
+                                }
+                            }
+                        },
+                        {
+                            type: 'number',
+                            name: 'roleId',
+                            message: "Enter the ID number of this employee.",
+                            validate: roleIdInput => {
+                                if (roleIdInput) {
+                                    return true;
+                                } else {
+                                    console.log("An error occurred. Please enter the employee's ID number.");
+                                    return false;
+                                }
+                            }
+                        },
+                        {
+                            type: 'number',
+                            name: 'managerId',
+                            message: "Enter this employee's manager ID number."
+                        }
+                    ])
+                    .then(data => {
+                        if (Number.isInteger(data.managerId)) {
+                            sql = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`;
+                            params = [data.firstName, data.lastName, data.roleId, data.managerId];
+                        } else {
+                            data.managerId = null;
+                            sql = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`;
+                            params = [data.firstName, data.lastName, data.roleId, data.managerId];
+                        }
+                        db.query(sql,params, (err, rows) => {
+                            if (err) {
+                                console.log("An error occurred. Please enter correct credentials.");
+                            } else {
+                                console.log("Employee added!");
+                            }
+                            goBack();
+                        });
+                    });
+                break;
+                case "Update an employee role:"
+            })
+        };
+        }
         })
-        break;
-    })
-};
-}
-})
 
 
-function viewAllDepartments() {
-    let sql;
-    sql = 'SELECT * FROM departments';
-    db.query(sql, (err, rows) => {
-        if (err) {
-            console.log("Error. Please try again.")
-        }
-        else {
-            console.table(rows)
-        }
-    })
-
-}
-
-function viewAllRoles() {
-
-}
-
-function viewAllEmployees() {
-
-}
-
-function addNewRole() {
-
-}
-
-function addNewEmployee() {
-    if(!employeeData) {
-        employeeData = [];
-    }
-    return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'first_name',
-            message: "What is the employee's first name?"
-        },
-        {
-            type: 'input',
-            name: 'last_name',
-            message: "What is the employee's last name?"
-        },
-        {
-            type: 'input',
-            name: 'role',
-            message: "What is the employee's role?"
-        },
-        {
-            type: 'input',
-            name: 'manager',
-            message: "Who is the employee's manager?"
-        }
-    ])
-    .then(employeeInfo => {
-        employeeData.push(employeeInfo)
-        return employeeInfo;
-    })
-};
-
-function updateRole() {
-
-}
 
 init();
