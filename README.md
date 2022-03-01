@@ -15,8 +15,6 @@
   ### Follow the prompts to interact with the application and manipulate the database accordingly.
   ## Contributing
   ### Thomas Maher
-  ## License
-    ### <a href="https://opensource.org/licenses/MIT">MIT</a>
   ## Tests
   ### Watch the video in this link to see the app in action!
   ### <a href="https://drive.google.com/file/d/1TgVEDqv6c2iMS5H58x5ewzWPvO_eRarX/view">"https://drive.google.com/file/d/1TgVEDqv6c2iMS5H58x5ewzWPvO_eRarX/view"</a>
