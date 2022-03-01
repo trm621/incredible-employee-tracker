@@ -1,8 +1,7 @@
 const inquirer = require('inquirer');
-const db = require('./db/connection');
-const cTable = require('console.table');
+const db = require('./db/connection.js');
 
-function init() {
+function startApp() {
     console.log("Hello there! Choose from the list of options below.");
     inquirer.prompt([
         {
@@ -267,6 +266,23 @@ function init() {
     })
 };
 
+function goBack() {
+    inquirer.prompt([
+        {
+            type: "confirm",
+            name: "goBack",
+            message: "Go back to main menu?",
+            default: false
+        }
+    ])
+    .then(data => {
+        if (data.goBack) {
+            startApp();
+        } else {
+            console.log("Exit out of window to end. Thank you!")
+        }
+    });
+}
 
 
-init();
+startApp();

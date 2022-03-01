@@ -1,3 +1,3 @@
-DROP DATABASE IF EXISTS team;
-CREATE DATABASE team;
-USE team;
+DROP DATABASE IF EXISTS incredible_employee_tracker;
+CREATE DATABASE incredible_employee_tracker;
+USE incredible_employee_tracker;
