@@ -10,7 +10,7 @@
   - <a href="#tests">Tests</a>
   - <a href="#questions">Questions</a>
   ## Installation
-  ### Download this repository onto your local machine, install dependencies, enter your mysql password into the connection.js file located in the "db" folder,  and run throught the command line by entering "node index".
+  ### Download this repository onto your local machine, install dependencies, enter your mysql password into the connection.js file located in the "db" folder, and run throught the command line by entering "node index".
   ## Usage
   ### Follow the prompts to interact with the application and manipulate the database accordingly.
   ## Contributing
@@ -18,6 +18,7 @@
   ## License
     ### <a href="https://opensource.org/licenses/MIT">MIT</a>
   ## Tests
-  ### 
+  ### Watch the video in this link to see the app in action!
+  ### <a href="https://drive.google.com/file/d/1TgVEDqv6c2iMS5H58x5ewzWPvO_eRarX/view">"https://drive.google.com/file/d/1TgVEDqv6c2iMS5H58x5ewzWPvO_eRarX/view"</a>
   ## Questions
   ### <a href="https://www.github.com/trm621">trm621</a>

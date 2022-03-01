@@ -208,9 +208,9 @@ function startApp() {
                         }
                         db.query(sql,params, (err, rows) => {
                             if (err) {
-                                console.log("An error occurred. Please enter correct credentials.");
+                                console.log("An error occurred. Please enter correct credentials!");
                             } else {
-                                console.log("Employee added!");
+                                console.log("New employee added!");
                             }
                             goBack();
                         });
@@ -233,7 +233,7 @@ function startApp() {
                         },
                         {
                             type: "number",
-                            name: "role",
+                            name: "newRole",
                             message: "Enter the role ID for the employee's new position.",
                             validate: newRoleInput => {
                                 if (newRoleInput) {
