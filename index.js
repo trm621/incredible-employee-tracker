@@ -36,7 +36,7 @@ function startApp() {
                 });
                 break;
             case "View all roles":
-                sql = `SELECT * FROM roles.id, roles.title, roles.salary, departments.name
+                sql = `SELECT roles.id, roles.title, roles.salary, departments.name
                 AS department
                 FROM roles
                 LEFT JOIN departments
@@ -49,7 +49,7 @@ function startApp() {
                         console.table(rows);
                     }
                     goBack();
-                })
+                });
                 break;
             case "View all employees":  
                 sql = `SELECT employees.id, employees.first_name, employees.last_name, roles.title AS title, departments.name AS department, roles.salary AS salary, manager_id AS manager
@@ -181,12 +181,12 @@ function startApp() {
                         {
                             type: 'number',
                             name: 'roleId',
-                            message: "Enter the ID number of this employee.",
+                            message: "Please enter the employee's role ID.",
                             validate: roleIdInput => {
                                 if (roleIdInput) {
                                     return true;
                                 } else {
-                                    console.log("An error occurred. Please enter the employee's ID number.");
+                                    console.log("An error occurred. Please enter the employee's role ID!");
                                     return false;
                                 }
                             }
@@ -194,7 +194,7 @@ function startApp() {
                         {
                             type: 'number',
                             name: 'managerId',
-                            message: "Enter this employee's manager ID number."
+                            message: "If this employee has a manager, please enter the manager ID. ",
                         }
                     ])
                     .then(data => {
